@@ -1,11 +1,12 @@
 JobManager = require '../src/requester'
+JobResponder = require '../src/responder'
 AWS = require 'aws-sdk'
 
 sqs = new AWS.SQS()
+
 sqs.getQueueUrl {QueueName: "meshnu-dispatcher-in"}, (error, response) =>
-  return console.log error.message if error?
+  return console.log error.message if error?    
   
-  console.log response
   job =
     metadata:
       runtime:'meatadata'
@@ -23,3 +24,11 @@ sqs.getQueueUrl {QueueName: "meshnu-dispatcher-in"}, (error, response) =>
     console.log('done')
     console.log(error?.message)
     console.log({job, jobResponse})
+
+
+  jobResponder = new JobResponder
+    requestQueueName: response.QueueUrl
+    workerFunc: =>
+
+  console.log(jobResponder)
+  jobResponder.getRequest =>

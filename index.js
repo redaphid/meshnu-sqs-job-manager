@@ -1,2 +1,3 @@
-import JobManager from './src/job-manager'
-export default JobManager
+import JobRequestor from './src/requestor';
+export JobRequestor
+export JobResponder
